@@ -1,0 +1,80 @@
+---
+title: "Automating our work away: one consulting firm's experience with R"
+author: "Finbarr Timbers"
+output:
+    ioslides_presentation:
+            css: assets/styles.css
+            widescreen: yes
+logo: assets/darkhorse_logo.png
+---
+
+<!--
+As consultants, many of the projects that we work on are similar, with many
+steps repeated verbatim across projects. Previously, our workflow was based
+largely in Microsoft Office, with our analysis done manually in Excel, our
+reports written in Word, and our presentations in Powerpoint. In 2015, we began
+using R for much of our analysis, including making slide decks and reports in
+RMarkdown. Our presentation discusses why we made the change, how we managed it,
+and advice for other consulting firms looking to do the same.
+-->
+
+## About
+- Darkhorse Analytics is an analytical consulting firm
+- Solve operational research problems, economic problems
+- Major focus on high quality visuals (lots o' Tufte)
+- "What is the optimal location for Toronto's next fire station?"
+- "How can we weight a labour force survey to best represent the population?"
+
+## Problems
+- poorly (not) documented visuals/presentations (copy this finbarr)
+- Not implicitly declared dependencies
+- Not documented code 
+- Non-performant code
+- Slide decks take a long time to copy
+
+## Solutions 
+R markdown
+
+## Example visuals...
+![image](excel-1.png)
+
+## Example visuals...
+![image](excel-2.png)
+    
+## Example visuals...
+![image](excel-3.png)
+
+## Problem
+- Visuals look nice, but can you tell how to make them? 
+- No documentation: you can create visuals without documenting them
+
+## Solution
+- Code! R 
+![image](ggplot_histogram_code.png) 
+![image](ggplot_histogram.png) 
+
+## Advantages:
+- implicitly self-documenting
+- live 
+
+### Disadvantages:
+- more complicated
+- creates dependency structure (need packages, etc.)
+- must know R to edit, can't fiddle around
+
+## Technologies (before)
+- Microsoft Office: Excel, Excel, Excel
+
+## Pain points with Excel
+- Not obvious how to replicate
+
+## Pain points with Powerpoint
+- No server
+- Hard to modify
+
+## Benefits
+
+## Problems with R
+- Not everyone knows R
+- Not easy for data consumers to use (feature?)
+- Requires configuration; Excel is a VM unto itself (except Mac Excel)
