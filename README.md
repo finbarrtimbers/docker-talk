@@ -22,6 +22,7 @@ and advice for other consulting firms looking to do the same.
 1. Download the code with
 
     `$ git clone https://bitbucket.org/timbers/user-2016-slides`
+
 2. Install the dependencies in the R REPL with
 
     `> install.packages('RMarkdown')`
