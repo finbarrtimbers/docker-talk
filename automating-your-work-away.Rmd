@@ -1,5 +1,6 @@
 ---
-title: "Automating our work away: one consulting firm's experience with R"
+title: "Automating our work away"
+subtitle: "One consulting firm's experience with RMarkdown"
 author: "Finbarr Timbers"
 output:
     ioslides_presentation:
@@ -18,63 +19,91 @@ RMarkdown. Our presentation discusses why we made the change, how we managed it,
 and advice for other consulting firms looking to do the same.
 -->
 
-## About
-- Darkhorse Analytics is an analytical consulting firm
-- Solve operational research problems, economic problems
-- Major focus on high quality visuals (lots o' Tufte)
-- "What is the optimal location for Toronto's next fire station?"
-- "How can we weight a labour force survey to best represent the population?"
+<!--
+Goals: 
+- gain 
+-->
 
-## Problems
-- poorly (not) documented visuals/presentations (copy this finbarr)
-- Not implicitly declared dependencies
-- Not documented code 
-- Non-performant code
-- Slide decks take a long time to copy
+## Outline 
+### 1. About Darkhorse
+### 2. Problems we faced
+### 3. How we solved those problems
+### 4. How can you gain acceptance for R?
 
-## Solutions 
-R markdown
+---
 
-## Example visuals...
-![image](excel-1.png)
+![](assets/darkhorse_logo.png)
 
-## Example visuals...
-![image](excel-2.png)
-    
-## Example visuals...
-![image](excel-3.png)
+# Problems we faced
+## Undocumented visuals/presentations
+![](assets/asana-1.png)
 
-## Problem
-- Visuals look nice, but can you tell how to make them? 
-- No documentation: you can create visuals without documenting them
+## Undocumented visuals/presentations
 
-## Solution
-- Code! R 
-![image](ggplot_histogram_code.png) 
-![image](ggplot_histogram.png) 
+How?
 
-## Advantages:
-- implicitly self-documenting
-- live 
+![](assets/excel-1.png)
 
-### Disadvantages:
-- more complicated
-- creates dependency structure (need packages, etc.)
-- must know R to edit, can't fiddle around
+## Slide decks take a long time to duplicate
 
-## Technologies (before)
-- Microsoft Office: Excel, Excel, Excel
+## No explicit dependencies
 
-## Pain points with Excel
-- Not obvious how to replicate
+## No explicit errors
 
-## Pain points with Powerpoint
-- No server
-- Hard to modify
+# Solution 
+## R markdown:
+- Code shows how to create visuals
 
-## Benefits
+## R markdown:
+- Slide decks can be copied
 
-## Problems with R
+## R markdown:
+- Dependencies are (should) be explicitly declared in Make
+- Code throws error messages 
+
+## Problems with R:
 - Not everyone knows R
+
+## Problems with R:
 - Not easy for data consumers to use (feature?)
-- Requires configuration; Excel is a VM unto itself (except Mac Excel)
+
+## Problems with R:
+- Requires configuration. 
+
+## Problems with R:
+- Requires configuration. 
+- Excel is a VM unto itself (except Mac Excel)
+
+## Anecdotal successes
+- Regenerating slide deck during meeting by changing one line of code
+
+## Anecdotal successtes
+- Regenerating slide deck during meeting by changing one line of code
+- 3/4s of the final report was done 
+
+## Anecdotal successes
+- Regenerating slide deck during meeting by changing one line of code
+- 3/4s of the final report was done by copy-pasting from intermediate 
+presentations
+- Copying visuals easily across projects
+
+# Recommendations
+
+## Make it easy 
+- Reproducible environments (Docker)
+
+## Make it easy 
+- Reproducible environments (Docker)
+- One step builds
+- Pull data directly
+
+## Make it good 
+- Version control
+
+## Make it good 
+- Version control
+- Automated test suite
+
+## Make it good 
+- Version control
+- Automated test suite
