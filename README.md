@@ -2,8 +2,21 @@
 
 My presentation for [UseR! 2016](user2016.org).
 
+## Summary
+
+As consultants, many of the projects that we work on are similar, with many
+steps repeated verbatim across projects. Previously, our workflow was based
+largely in Microsoft Office, with our analysis done manually in Excel, our
+reports written in Word, and our presentations in Powerpoint. In 2015, we began
+using R for much of our analysis, including making slide decks and reports in
+RMarkdown. Our presentation discusses why we made the change, how we managed it,
+and advice for other consulting firms looking to do the same.
+
 ## Dependencies
-- 
+- `RMarkdown`
+- `ggplot2`
+- `ggthemes`
 
 ## Credits
-- [Darkhorse Analytics](dha.io) for supporting me
+
+- [Darkhorse Analytics](dha.io) for supporting me to attend UseR!2016.
