@@ -20,90 +20,82 @@ and advice for other consulting firms looking to do the same.
 -->
 
 <!--
-Goals: 
-- gain 
+Goals:
+- gain
 -->
 
-## Outline 
+## Outline
 ### 1. About Darkhorse
 ### 2. Problems we faced
 ### 3. How we solved those problems
-### 4. How can you gain acceptance for R?
+### 4. How you can solve your problems (every single one!)
 
 ---
 
 ![](assets/darkhorse_logo.png)
 
-# Problems we faced
-## Undocumented visuals/presentations
-![](assets/asana-1.png)
+---
 
-## Undocumented visuals/presentations
+![](assets/histogram_1.png) ![](assets/histogram_2.png)
+![](assets/histogram_3.png) ![](assets/histogram_4.png)
 
-How?
+---
 
-![](assets/excel-1.png)
+![](assets/line_chart_1.png) ![](assets/line_chart_2.png)
+![](assets/line_chart_3.png) ![](assets/line_chart_4.png)
 
-## Slide decks take a long time to duplicate
+## Best practice charts
 
-## No explicit dependencies
+![](assets/dha_histogram.png) ![](assets/dha_line_chart.png)
 
-## No explicit errors
+## Two problems:
+1. How do we replicate those charts?
 
-# Solution 
-## R markdown:
-- Code shows how to create visuals
+## Two problems:
+1. How do we replicate those charts?
+2. It takes time to repeatedly make high quality graphs in Excel.
 
-## R markdown:
-- Slide decks can be copied
+## Solution
 
-## R markdown:
-- Dependencies are (should) be explicitly declared in Make
-- Code throws error messages 
+![](assets/R_logo.png)
 
-## Problems with R:
-- Not everyone knows R
+## Solution
 
-## Problems with R:
-- Not easy for data consumers to use (feature?)
+![](assets/R_logo.png)
+![](assets/ggplot.png)
 
-## Problems with R:
-- Requires configuration. 
+# No need to copy the code!
 
-## Problems with R:
-- Requires configuration. 
-- Excel is a VM unto itself (except Mac Excel)
+## What we did:
 
-## Anecdotal successes
-- Regenerating slide deck during meeting by changing one line of code
+## What we did:
+1. Use RMarkdown to write template ("best practice") slides.
 
-## Anecdotal successtes
-- Regenerating slide deck during meeting by changing one line of code
-- 3/4s of the final report was done 
+## What we did:
+1. Use RMarkdown to write template ("best practice") slides.
+2. Make the slides accessible to the company (we used Git + Bitbucket).
 
-## Anecdotal successes
-- Regenerating slide deck during meeting by changing one line of code
-- 3/4s of the final report was done by copy-pasting from intermediate 
-presentations
-- Copying visuals easily across projects
+## What we did:
+1. Use RMarkdown to write template ("best practice") slides.
+2. Made the slides accessible to the company (we used Git + Bitbucket).
+3. Made it easy to run in other environments (we used installation scripts &
+   Docker)
 
-# Recommendations
+## What we did:
+1. Use RMarkdown to write template ("best practice") slides.
+2. Made the slides accessible to the company (we used Git + Bitbucket).
+3. Made it easy to run in other environments (we used installation scripts &
+   Docker)
+4. Iterate (we used Git).
 
-## Make it easy 
-- Reproducible environments (Docker)
+## Lessons
+1. Make it good.
 
-## Make it easy 
-- Reproducible environments (Docker)
-- One step builds
-- Pull data directly
+## Lessons
+1. Make it good.
+2. Make it easy.
 
-## Make it good 
-- Version control
-
-## Make it good 
-- Version control
-- Automated test suite
-
-## Make it good 
-- Version control
-- Automated test suite
+## Lessons
+1. Make it good.
+2. Make it easy.
+3. Make it profitable.
