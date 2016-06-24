@@ -1,5 +1,5 @@
 automating-your-work-away.html:automating-your-work-away.Rmd \
-							   $(shell find assets -type f)
+	assets/*.png
 	Rscript -e "library(knitr); rmarkdown::render('automating-your-work-away.Rmd')"
 
 clean:

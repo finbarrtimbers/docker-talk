@@ -36,35 +36,140 @@ Goals:
 
 ---
 
-![](assets/histogram_1.png) ![](assets/histogram_2.png)
-![](assets/histogram_3.png) ![](assets/histogram_4.png)
+![](assets/histogram_1.png)
 
 ---
 
-![](assets/line_chart_1.png) ![](assets/line_chart_2.png)
-![](assets/line_chart_3.png) ![](assets/line_chart_4.png)
+![](assets/histogram_2.png)
+
+---
+
+![](assets/histogram_3.png)
+
+---
+
+![](assets/histogram_4.png)
+
+---
+
+![](assets/line_chart_1.png)
+
+---
+
+![](assets/line_chart_2.png)
+
+---
+
+![](assets/line_chart_3.png)
+
+## Problems
+
+## Problems
+1. All styled differently. We need to edit every plot individually.
+
+## Problems
+1. All styled differently. We need to edit every plot individually.
+2. No documentation on how to replicate.
+
+## Problems
+1. All styled differently. We need to edit every plot individually.
+2. No documentation on how to replicate.
+3. It takes time to replicate.
+
+# Instead? R!
+
+## R:
+```
+function darkhorse_histogram(x_data) {
+    ggplot(test_data, aes(Region)) +
+        geom_bar(fill=col, aes(y=(..count..)/sum(..count..))) +
+        geom_hline(yintercept= 0, colour=col) +
+        darkhorse_theme() +
+        ylab("Percentage of respondents") + ggtitle("Regional distribution") +
+        theme(axis.line.x = element_blank(),
+            axis.line.y = element_blank(),
+            axis.ticks = element_blank()) +
+        scale_y_continuous(breaks=y_breaks, labels = percent) +
+        geom_hline(yintercept=y_breaks[2:length(y_breaks)], color="white") +
+        scale_x_continuous(breaks=1:6)
+}
+```
 
 ## Best practice charts
 
-![](assets/dha_histogram.png) ![](assets/dha_line_chart.png)
+```{r, include=FALSE}
+library(ggplot2)
+library(ggthemes)
 
-## Two problems:
-1. How do we replicate those charts?
+knitr::opts_chunk$set(tidy = FALSE, cache.extra = packageVersion('tufte'))
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(comment = FALSE)
+knitr::opts_chunk$set(error = FALSE)
 
-## Two problems:
-1. How do we replicate those charts?
-2. It takes time to repeatedly make high quality graphs in Excel.
+darkhorse_theme = function() {
+  theme_bw() + theme(plot.background = element_rect(fill="transparent",
+colour = NA),
+panel.background = element_rect(fill = "transparent", colour = NA),
+panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(),
+panel.border = element_blank(),
+legend.position="none",
+axis.line.x = element_line(color = "black"),
+axis.line.y = element_line(color = "black"),
+axis.title.x=element_text(vjust=0.1),
+plot.margin=unit(c(12.5, 1, 12.5, 1), "mm"),
+text=element_text(family="Open Sans"))
+}
+```
 
-## Solution
+```{r, fig.height=5, fig.width=9}
+require(scales)
+y_breaks=seq(0, 0.30, by=0.05)
+test_data = data.frame(1:100)
+test_data$Region = c(rep.int(1, 25), rep.int(2, 15), rep.int(3, 10), rep.int(4, 25), rep.int(5, 20), rep.int(6, 5))
+col = "#E69F00"
+ggplot(test_data, aes(Region)) +
+    geom_bar(fill=col, aes(y=(..count..)/sum(..count..))) +
+    geom_hline(yintercept= 0, colour=col) +
+    darkhorse_theme() +
+    ylab("Percentage of respondents") + ggtitle("Regional distribution") +
+    theme(axis.line.x = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks = element_blank()) +
+    scale_y_continuous(breaks=y_breaks, labels = percent) +
+    geom_hline(yintercept=y_breaks[2:length(y_breaks)], color="white") +
+    scale_x_continuous(breaks=1:6)
+```
 
-![](assets/R_logo.png)
+## Best practice charts
 
-## Solution
-
-![](assets/R_logo.png)
-![](assets/ggplot.png)
-
-# No need to copy the code!
+```{r, fig.height=5, fig.width=9}
+line_data = data.frame(
+    var0 = 1100 + c(0, cumsum(runif(49, -20, 20))),
+    var1 = 1150 + c(0, cumsum(runif(49, -10, 10))),
+    var2 = 1200 + c(0, cumsum(runif(49, -30, 10))),
+    var3 = 1250 + c(0, cumsum(runif(49, -40, 10))),
+    Month = 1:50
+)
+months = seq(1, 360, 30)
+intermediary_month_labels = as.Date(months, origin="2015/01/01", by="months", format="%M")
+month_labels = format(intermediary_month_labels, format="%b")
+col = "#E69F00"
+ggplot(line_data, aes(Month)) +
+    geom_line(aes(y=var0, colour='gray')) +
+    geom_line(aes(y=var1, colour='gray')) +
+    geom_line(aes(y=var3, colour='gray')) +
+    geom_line(aes(y=var2, colour=col)) +
+    darkhorse_theme() +
+    ylab("Sales ($)") + ggtitle("") +
+    theme(axis.line.x = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks = element_blank()) +
+    scale_x_continuous(breaks=seq(1, 48, 4), labels=month_labels)
+```
 
 ## What we did:
 
