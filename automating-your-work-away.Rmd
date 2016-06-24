@@ -19,11 +19,6 @@ RMarkdown. Our presentation discusses why we made the change, how we managed it,
 and advice for other consulting firms looking to do the same.
 -->
 
-<!--
-Goals:
-- gain
--->
-
 ## Outline
 ### 1. About Darkhorse
 ### 2. Problems we faced
