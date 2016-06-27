@@ -22,9 +22,14 @@ and advice for other consulting firms looking to do the same.
 ```{r, include=FALSE}
 library(png)
 library(grid)
+library(gridExtra)
 library(ggplot2)
 library(ggthemes)
 library(scales)
+library(RODBC)
+library(tidyr)
+library(directlabels)
+library(dplyr)
 
 knitr::opts_chunk$set(tidy = FALSE, cache.extra = packageVersion('tufte'))
 options(htmltools.dir.version = FALSE)
@@ -35,6 +40,20 @@ knitr::opts_chunk$set(comment = FALSE)
 knitr::opts_chunk$set(error = FALSE)
 knitr::opts_chunk$set(fig.align = "center")
 
+chart.theme <- theme(#axis.line = element_blank(),
+                     axis.ticks = element_blank(),
+                     panel.border = element_blank(),
+                     panel.grid = element_blank(),
+                     plot.background = element_rect(fill = "transparent", colour = NA),
+                     panel.background = element_rect(fill = "transparent", colour = NA),
+                     plot.title = element_text(colour = '#404040'),
+                     strip.text = element_text(colour = '#404040', size=15, family="Open Sans"),
+                     strip.background = element_rect(fill = "transparent", colour = NA),
+                     panel.margin = unit(c(0,0,0,0), "cm"),
+                     plot.margin = unit(c(0,0,0,0), "cm"),
+                     legend.position = "none"
+                     )
+dha.palette <- c("#FEB40B","#9D9D9D","#3F4E65","#296E7E","#5A9722","#82CA40")
 darkhorse_theme = function() {
   theme_bw() + theme(plot.background = element_rect(fill="transparent",
 colour = NA),
@@ -52,7 +71,7 @@ plot.margin=unit(c(12.5, 1, 12.5, 1), "mm"))
 ```
 
 ## Outline
-### 1. About Darkhorse
+### 1. About Darkhorse Analytics
 ### 2. Problems we faced
 ### 3. How we solved those problems
 ### 4. How you can improve R(Markdown) adoption
@@ -65,96 +84,117 @@ grid.raster(readPNG("assets/darkhorse_logo.png"))
 
 ---
 
-```{r fig.width=7.5, fig.height=5}
-grid.raster(readPNG("assets/histogram_1.png"))
+```{r fig.width=10.75, fig.height=5}
+hist1 = rasterGrob(as.raster(readPNG("assets/histogram_1.png")))
+hist2 = rasterGrob(as.raster(readPNG("assets/histogram_2.png")))
+hist3 = rasterGrob(as.raster(readPNG("assets/histogram_3.png")))
+hist4 = rasterGrob(as.raster(readPNG("assets/histogram_4.png")))
+grid.arrange(hist1, hist2, hist3, hist4, ncol=2, nrow=2)
 ```
 
 ---
 
-```{r fig.width=7.5, fig.height=5}
-grid.raster(readPNG("assets/histogram_2.png"))
+```{r fig.width=10.75, fig.height=5}
+line1 = rasterGrob(as.raster(readPNG("assets/line_chart_1.png")))
+line2 = rasterGrob(as.raster(readPNG("assets/line_chart_2.png")))
+line3 = rasterGrob(as.raster(readPNG("assets/line_chart_3.png")))
+grid.arrange(line1, line2, line3, ncol=2, nrow=2)
 ```
 
----
-
-```{r fig.width=7.5, fig.height=5}
-grid.raster(readPNG("assets/histogram_3.png"))
-```
-
----
-
-```{r fig.width=7.5, fig.height=5}
-grid.raster(readPNG("assets/histogram_4.png"))
-```
-
----
-
-```{r fig.width=7.5, fig.height=5}
-grid.raster(readPNG("assets/line_chart_1.png"))
-```
-
----
-
-```{r fig.width=7.5, fig.height=5}
-grid.raster(readPNG("assets/line_chart_2.png"))
-```
-
----
-
-```{r fig.width=7.5, fig.height=5}
-grid.raster(readPNG("assets/line_chart_3.png"))
-```
 
 ## Problems
 
 ## Problems
-1. All styled differently. We need to edit every plot individually.
+1. It takes a lot of time to replicate, which is a problem when rework happens 
+(>50 slides!). We've had 3 month projects with 1 month consumed by rework. 
 
 ## Problems
-1. All styled differently. We need to edit every plot individually.
-2. No documentation on how to replicate.
+1. It takes a lot of time to replicate, which is a problem when rework happens 
+(>50 slides!). We've had 3 month projects with 1 month consumed by rework. 
+2. All styled differently. We need to edit every plot individually.
 
 ## Problems
-1. All styled differently. We need to edit every plot individually.
-2. No documentation on how to replicate.
-3. It takes time to replicate.
+1. It takes a lot of time to replicate, which is a problem when rework happens 
+(>50 slides!). We've had 3 month projects with 1 month consumed by rework. 
+2. All styled differently. We need to edit every plot individually.
+3. No documentation on how to replicate.
 
 # Instead? R!
 
+
+## What we did:
+
+## What we did:
+1. Use RMarkdown to write template ("best practice") slides.
+
+## What we did:
+1. Use RMarkdown to write template ("best practice") slides.
+2. Made the slides accessible to the company (we used Git + Bitbucket).
+
+## What we did:
+1. Use RMarkdown to write template ("best practice") slides.
+2. Made the slides accessible to the company (we used Git + Bitbucket).
+3. Made it easy to run in other environments (we used installation scripts; 
+   moving to Docker)
+
+## What we did:
+1. Use RMarkdown to write template ("best practice") slides.
+2. Made the slides accessible to the company (we used Git + Bitbucket).
+3. Made it easy to run in other environments (we used installation scripts; 
+   moving to Docker)
+4. Iterate (we used Git).
+
+## What we did:
+1. Use RMarkdown to write template ("best practice") slides.
+2. Made the slides accessible to the company (we used Git + Bitbucket)
+3. Made it easy to run in other environments (we used installation scripts; 
+   moving to Docker)
+4. Iterate (we used Git).
+5. Publish as a package (yet to happen). 
+
+
 ## R:
 ```
-function darkhorse_histogram(x_data, x_var, x_breaks, title, 
-                             y_breaks, col="#E69F00") {
-    ggplot(x_data, aes(x_var)) +
-        geom_bar(fill=col, aes(y=(..count..)/sum(..count..))) +
+darkhorse_histogram = function(df, x_var, x_breaks, x_label, 
+                               y_var, y_breaks, y_label,
+                               title, col="#E69F00") {
+    ggplot(df, aes_string(x = x_var, y = y_var)) +
+        geom_bar(fill=col, stat = "identity") + 
         geom_hline(yintercept= 0, colour=col) +
         darkhorse_theme() +
         ggtitle(title) +
         theme(axis.line.x = element_blank(),
             axis.line.y = element_blank(),
             axis.ticks = element_blank()) +
-        scale_y_continuous(breaks=y_breaks, labels=percent) +
-        ylab("") + 
+        ylab(y_label) + xlab(x_label) +  
+        scale_y_continuous(breaks=y_breaks) +
         geom_hline(yintercept=y_breaks[2:length(y_breaks)], color="white") +
         scale_x_continuous(breaks=x_breaks)
 }
 ```
 
-## Best practice charts
+## Go from...
+```{r}
+grid.arrange(hist3, ncol=1, nrow=1)
+```
+
+## To...
 
 ```{r}
-darkhorse_histogram = function(x_data, x_var, x_breaks, title, 
-                             y_breaks, col="#E69F00") {
-    ggplot(x_data, aes_string(x_var)) +
-        geom_bar(fill=col, aes(y=(..count..)/sum(..count..))) +
+darkhorse_histogram = function(df, x_var, x_breaks, x_label, y_var, y_breaks, 
+    y_label,
+    title, 
+                               col="#E69F00") {
+    ggplot(df, aes_string(x = x_var, y = y_var)) +
+        geom_bar(fill=col, stat = "identity") + 
         geom_hline(yintercept= 0, colour=col) +
         darkhorse_theme() +
         ggtitle(title) +
         theme(axis.line.x = element_blank(),
             axis.line.y = element_blank(),
             axis.ticks = element_blank()) +
-        ylab("") + 
-        scale_y_continuous(breaks=y_breaks, labels=percent) +
+        ylab(y_label) + xlab(x_label) +  
+        scale_y_continuous(breaks=y_breaks) +
         geom_hline(yintercept=y_breaks[2:length(y_breaks)], color="white") +
         scale_x_continuous(breaks=x_breaks)
 }
@@ -171,90 +211,96 @@ darkhorse_highlighted_linechart = function(line_data, x_var, y_var,
         scale_x_continuous(breaks=x_breaks, labels=x_labels)
 }
 
-y_breaks=seq(0, 0.30, by=0.05)
-test_data = data.frame(1:100)
-test_data$Region = c(rep.int(1, 25), 
-                     rep.int(2, 15), 
-                     rep.int(3, 10), 
-                     rep.int(4, 25), 
-                     rep.int(5, 20), 
-                     rep.int(6, 5))
+y_breaks=seq(0, 12, by=2)
+test_data = data.frame(x = 0:15, 
+    y = c(0, 1, 8, 10, 10, 5, 5, 4, 3, 1, 0, 0, 0, 0, 0, 2))
 ```
+
 ```{r fig.height=5, fig.width=9}
-darkhorse_histogram(test_data, "Region", 
-    x_breaks=1:6, 
-    title="Regional distribution", 
-    y_breaks=y_breaks, 
+darkhorse_histogram(test_data, x_var = "x", x_breaks = 0:15, 
+    x_lab="Minutes from Home to Station",
+    y_var = "y", y_breaks=y_breaks, y_lab="Headcount",
+    title="Part Time Responders", 
     col="#E69F00") 
 ```
 
-## Best practice charts
+## Also: SQL 
 
-```{r, fig.height=5, fig.width=9}
-line_data = data.frame(
-    Sales =  c(1100 + c(0, cumsum(runif(49, -20, 20))),
-               1150 + c(0, cumsum(runif(49, -10, 10))),
-               1200 + c(0, cumsum(runif(49, -30, 10))),
-               1250 + c(0, cumsum(runif(49, -40, 10)))),
-    Group = c(rep("1", 50), 
-              rep("2", 50), 
-              rep("3", 50), 
-              rep("4", 50)),
-    Month = rep(1:50, 4), 
-    Colour = rep("grey", 200), stringsAsFactors=FALSE
-)
-line_data[line_data$Group == "3",]$Colour = "red"
-months = seq(1, 360, 30)
-intermediary_month_labels = as.Date(months, origin="2015/01/01", by="months", 
-                                    format="%M")
-month_labels = format(intermediary_month_labels, format="%b")
-darkhorse_highlighted_linechart(line_data = line_data, 
-    x_var = "Month", 
-    y_var = "Sales", 
-    y_label = "Sales ($)", 
-    title = "", 
-    x_breaks = seq(1, 48, 4), 
-    x_labels = month_labels)
+```
+SELECT
+  *
+FROM (SELECT
+  CASE
+    WHEN Call_Type NOT IN ('Medical', 'Fire', 'Fire Alarm Ringing', 'Vehicle Incident') THEN 'Other'
+    ELSE Call_Type
+  END AS CallType,
+  CallID,
+  Year
+FROM ERA_TFS.dbo.Calls_Template
+WHERE Qualified_Event = 1) t
+PIVOT (COUNT(CallID) FOR Year IN ([2012], [2013], [2014])) pvt
 ```
 
-## What we did:
+---
 
-## What we did:
-1. Use RMarkdown to write template ("best practice") slides.
+```{r, echo=FALSE, message = FALSE, error = FALSE}
 
-## What we did:
-1. Use RMarkdown to write template ("best practice") slides.
-2. Make the slides accessible to the company (we used Git + Bitbucket).
+### database connection
+cn <- tryCatch({
+  cnxn <- odbcDriverConnect("DRIVER=SQL Server;Server=DHA-S-EU;UID=sa;PWD=SeeQuelllNterprize2012;Database=ERA_TFS")
+  return(cnxn)
+}, warning = function(w) {
+  cnxn <- odbcConnect(dsn='DHA-S-EU', uid='sa', pwd='SeeQuelllNterprize2012')
+  return(cnxn)
+})
 
-## What we did:
-1. Use RMarkdown to write template ("best practice") slides.
-2. Made the slides accessible to the company (we used Git + Bitbucket).
-3. Made it easy to run in other environments (we used installation scripts &
-   Docker)
+### run SQL query and return pivot table of # of calls by type and year
+pivotCallType <- sqlQuery(cn, "select *
+       from 
+       (
+          select case when Call_Type not in ('Medical', 'Fire', 'Fire Alarm Ringing', 'Vehicle Incident') then 'Other' 
+          else Call_Type end as CallType, CallID, Year
+          from ERA_TFS.dbo.Calls_Template
+          where Qualified_Event = 1
+       ) t
+       pivot (count(CallID) for Year in ([2012], [2013], [2014])) pvt
+      ")
 
-## What we did:
-1. Use RMarkdown to write template ("best practice") slides.
-2. Made the slides accessible to the company (we used Git + Bitbucket).
-3. Made it easy to run in other environments (we used installation scripts &
-   Docker)
-4. Iterate (we used Git).
+### gather columns into rows
+tidiedCallTypeData <- gather(pivotCallType, 
+                             key = "year",
+                             value = "calls",
+                             -1)
+tidiedCallTypeData$year <- factor(tidiedCallTypeData$year)
 
-## What we did:
-1. Use RMarkdown to write template ("best practice") slides.
-2. Made the slides accessible to the company (we used Git + Bitbucket; 
-we plan to publish a package soon).
-3. Made it easy to run in other environments (we used installation scripts &
-   Docker)
-4. Iterate (we used Git).
+### get total count of calls per year 
+yearlyTotals <- tidiedCallTypeData %>%
+  group_by(year) %>%
+  summarize(totalCalls = sum(calls))
+
+
+### line graph of calls per year grouped by call type
+ggplot(tidiedCallTypeData, aes(x=year, y=calls, col=CallType, 
+                                                 label=CallType)) +
+  geom_line(aes(group = CallType)) +
+  chart.theme + 
+  theme(axis.title.x = element_blank(), 
+        strip.text = element_text(size=100)) +
+  scale_colour_manual(values=dha.palette, guide=FALSE) +
+  labs(y="Calls") + 
+  geom_dl(data = tidiedCallTypeData, method = list(cex=.5, "last.bumpup", 
+                                                       dl.trans(x=x-.5, y=y+0.2)))
+```
 
 ## Lessons
-1. Make it good.
+### 1. Make it great.
 
 ## Lessons
-1. Make it good.
-2. Make it easy.
+### 1. Make it great.
+### 2. Make it easy.
 
 ## Lessons
-1. Make it good.
-2. Make it easy.
-3. Make it profitable.
+### 1. Make it great.
+### 2. Make it easy.
+### 3. Make it profitable.
+
