@@ -1,0 +1,68 @@
+---
+title: "Docker: what is it, how do you use it, and why should you care?"
+author: "Finbarr Timbers"
+output:
+    beamer_presentation:
+        keep_tex: no
+        theme: metropolis
+        latex_engine: xelatex
+        slide_level: 2
+        incremental: true
+        fig_caption: false
+        includes:
+            in_header: header.tex
+fontsize: 12pt
+classoption: compress
+logo: assets/darkhorse_logo.png
+---
+
+# Three stories.
+
+
+## One.
+1. New person comes and needs to run software. How do we do that?
+
+## Two.
+
+2. "Here's a script for speed parameter calculation! Oh. It doesn't work on
+your computer?"
+
+## Three
+
+3. How do we deploy a Python application to a client's system if they don't
+have python installed?
+
+# Solution?
+
+# Fiddle with your computer until it works!
+
+# If only there was something better...
+
+## Ideal solution would be:
+1. Reproducible.
+2. Fast.
+3. Easy.
+
+---
+
+![Docker logo](assets/large_h-trans.png)
+
+## What is Docker?
+- Allows for the automatic deployment of "containers"
+- Containers are lightweight VMs that wrap up code with everything needed to run
+- "Write once run everywhere"
+- Easy to write and use
+
+# Demos!
+
+## Benefits
+1. Super fast to make code changes.
+2. Snapshot in time- doesn't update without being told.
+
+## Problems
+
+1. Access to SQL Server--- Hamachi doesn't play nice with Docker.
+2. Can have long compile times (e.g. if installing `gcc` from scratch.)
+3. Can be difficult to get code in (typically use `git clone` or `COPY`,
+which is a Docker command that copies the code directly from your local
+filesystem).
