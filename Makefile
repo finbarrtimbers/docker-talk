@@ -1,6 +1,11 @@
-automating-your-work-away.html:automating-your-work-away.Rmd \
-	assets/*.png
-	Rscript -e "rmarkdown::render('automating-your-work-away.Rmd')"
+sources :=         $(wildcard *.Rmd)
+slides :=         $(sources:.Rmd=.pdf)
+
+all:            ${slides}
+
+%.pdf:            %.Rmd
+			Rscript -e "rmarkdown::render(\"$<\", clean=TRUE)"
+
 
 clean:
-	rm -f automating-your-work-away.html
+	rm -f docker-demo.pdf
