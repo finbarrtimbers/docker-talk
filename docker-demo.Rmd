@@ -1,6 +1,8 @@
 ---
-title: "Docker: what is it, how do you use it, and why should you care?"
-author: "Finbarr Timbers"
+title: "A talker on Docker:"
+subtitle: "How containers can make your work more reproducible, accessible, and ready for production."
+author: "Finbarr Timbers, Analyst, Darkhorse Analytics"
+titlegraphic: assets/darkhorse_logo.png
 output:
     beamer_presentation:
         keep_tex: no
@@ -13,24 +15,52 @@ output:
             in_header: header.tex
 fontsize: 12pt
 classoption: compress
-logo: assets/darkhorse_logo.png
 ---
 
 # Three stories.
 
 
-## One.
-1. New person comes and needs to run software. How do we do that?
+## One: Moving a nonlinear regression from Excel to Python.
 
-## Two.
+![](excel-speed-parameters.png)
 
-2. "Here's a script for speed parameter calculation! Oh. It doesn't work on
-your computer?"
+## One: Moving a nonlinear regression from Excel to Python.
+At Darkhorse, we had a nonlinear regression that we had been running for
+several years. We used Excel to calculate the parameters of the model, which
+we would then input into our emergency services application.
+
+Problems:
+
+1. It was slow.
+2. Hard to automate.
+3. Hard to test.
+
+
+## One: Moving a nonlinear regression from Excel to Python.
+The solution:
+
+![](numpy-scipy.png)
+
+## One: Moving a nonlinear regression from Excel to Python.
+120 lines of code later, I was done. 10000x speedup.
+
+# But...
+
+# "Hey Finbarr, can you help? The code doesn't seem to run."
+
+# The solution?
+
+# Fiddle with the computer for 20 minutes.
+
+## Two: Deploying a statistical model to large .Net institution.
+
+
+
 
 ## Three
 
-3. How do we deploy a Python application to a client's system if they don't
-have python installed?
+
+# Is there common thread?
 
 # Solution?
 
@@ -39,9 +69,31 @@ have python installed?
 # If only there was something better...
 
 ## Ideal solution would be:
-1. Reproducible.
-2. Fast.
-3. Easy.
+1. Portable. It works, quickly & easily, on every computer.
+2. Easy to configure.
+3. Compatible with production environment.
+4. Works on Windows, OS X, and Linux.
+5. Independent--- can run multiple independently.
+6. Historical--- works forever.
+
+## Production
+- DOn't need to worry about depenecnies (don't need to instlall all of the
+*extremely heavy* dependencies- numpy, scipy, pandas, sklearn, etc.
+- Can easily move your applcation around
+- Less fragile
+- Drop: "daemons we don't need, virtualization layers, duplicated functions, large iamges"
+
+## Example
+
+1. We need python 3.2. Damn, distro doesn't provide it.
+2. Need a library that clashes with the system's version. Damn.
+3. We package the whole mess, using virtualenv and some glue.
+4. Oh, and we need redis 2.6 for Lua support. Distro has 2.4. Triple damn.
+5. Oh, and the QA team has standardized on Centos.
+6. Oh, BTW, the new search service is a node.js app, that's cool, right?
+
+
+## Easy to deploy
 
 ---
 
@@ -58,11 +110,86 @@ have python installed?
 ## Benefits
 1. Super fast to make code changes.
 2. Snapshot in time- doesn't update without being told.
+3. Easy to push far away.
+4. Can run on bare metal (Docker v. Heroku)
 
-## Problems
+## Drawbacks
+1. Slows down iteration speed.
+2. Logging/exporting results (currently...)
+3. Secrets. Most people migrating to containers rely on configuration management
+   to provision secrets on machines securely; however, continuing down the path
+   of configuration management for secrets in containers is clunky. Another
+   alternative is distributing them with the image, but that poses security
+   risks and makes it difficult to securely recycle images between development,
+   CI, and production. The most pure solution is to access secrets over the
+   network, keeping the filesystem of containers stateless. Until recently
+   nothing container-oriented existed in this space, but recently two compelling
+   secret brokers, Vault and Keywhiz, were open-sourced. At Shopify we developed
+   ejson a year and a half ago to solve this problem to manage asymmetrically
+   encrypted secrets files in JSON; however, it makes some assumptions about the
+   environment it runs in that make it less ideal as a general solution compared
+   to secret brokers (read this post if you’re curious).
+4. Image build times can take a long time (future parallelization of buidls).
 
-1. Access to SQL Server--- Hamachi doesn't play nice with Docker.
-2. Can have long compile times (e.g. if installing `gcc` from scratch.)
-3. Can be difficult to get code in (typically use `git clone` or `COPY`,
-which is a Docker command that copies the code directly from your local
-filesystem).
+
+## Docker CLI basics
+
+
+## Using it
+- any containers running?
+`docker ps`
+- run the ubuntu base (change to be more DSey
+`docker run -i -t ubuntu:12.10 bash`
+- tag it
+`docker commit -m "installed redis server"`
+`docker images`
+
+## expose to SQL Server
+- show bitbucket repo
+- discuss problems we had
+- show how Docker fixes it (should work on non-OS X systems)
+
+
+## Create example api based on speed paramter optimizations
+- create locally, copies file, runs, spits out back
+`docker run --net host -d --name myiris pythoniris  `
+
+- works on Windows
+- API-ify it and deploy to GCE
+
+
+## Example app
+- time it
+
+```
+root@precise64:~# docker stop 8222
+root@precise64:~# time docker start 8222
+    real    0m0.150s
+
+root@precise64:~# time service redis-server start
+Starting redis-server: redis-server.
+    real    0m0.165s
+
+root@precise64:~# time docker run -p 6379 -d -i -t jbarratt/redis01 /usr/bin/redis-server
+    real    0m0.147s
+```
+
+## Install service manually
+
+## Now, let's automate it
+Sample Dockerfile:
+
+- Now, edit the code and redploy
+
+- Layering dockerfiles
+
+## Competitors
+
+## Pricing
+- Check out Heroku
+
+## Security
+- less stuff on the box, less vectors
+- layering dockerfiles
+
+## Links
