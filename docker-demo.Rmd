@@ -22,7 +22,7 @@ classoption: compress
 
 ## One: Moving a nonlinear regression from Excel to Python.
 
-![](excel-speed-parameters.png)
+![](assets/excel-speed-parameters.png)
 
 ## One: Moving a nonlinear regression from Excel to Python.
 At Darkhorse, we had a nonlinear regression that we had been running for
@@ -39,7 +39,7 @@ Problems:
 ## One: Moving a nonlinear regression from Excel to Python.
 The solution:
 
-![](numpy-scipy.png)
+![](assets/numpy-scipy.png)
 
 ## One: Moving a nonlinear regression from Excel to Python.
 120 lines of code later, I was done. 10000x speedup.
@@ -52,23 +52,73 @@ The solution:
 
 # Fiddle with the computer for 20 minutes.
 
-## Two: Deploying a statistical model to large .Net institution.
 
 
+## Two: Sharing exploratory models
+
+![](assets/tensorflow.png)
+
+## Two: Sharing exploratory models
+As a side project at Darkhorse, one of the other analysts and I have been
+working on a project that tries to predict the longterm price of oil using a
+neural net.
+
+We've been using Tensorflow to run the model.
+
+## Two: Sharing exploratory models
+I've been writing most of the code, so I'm the only one with Tensorflow
+installed on his computer. My colleague and I discuss the results, which I
+send to him via Slack.
+
+## Two: Sharing exploratory models
+That was too slow, so I installed Shiny (an R package) and started running a
+server that hosted an interactive plot that he could use to explore the results.
+
+![](assets/shiny.png)
 
 
-## Three
+## Three: Running statistical model on client's system
+
+![](assets/windows-server-2012.png)
+
+## Three: Running statistical model on client's system
+
+We recently completed a project where we designed a survey weighting system
+for a client and wrote the code to implement it.
+
+However, until the very end, we didn't know what the client's system looked
+like.
+
+# (If you're a consultant, this happens a lot).
+
+## Three: Running statistical model on client's system
+
+All we knew was:
+
+1. We had access to a database.
+2. We had to create an application that would talk to that database.
+
+# The solution?
+
+## Three: Running statistical model on client's system
+1. Attend a series of meeting with the client's IT team discussing their
+systems and our needs. We needed to install a large number of packages, and we
+needed to install Python, which didn't exist on their servers.
+2. Write a comprehensive test suite that ensured every possible point of
+failure was covered.
+3. Pray.
 
 
-# Is there common thread?
+# Is there a common thread?
 
-# Solution?
+## Problems
+1. Unmet dependencies.
+2. Undefined production environments.
+3. Lengthy setup/install processes.
 
-# Fiddle with your computer until it works!
+# If only there was something that could help us...
 
-# If only there was something better...
-
-## Ideal solution would be:
+## An Ideal solution would be:
 1. Portable. It works, quickly & easily, on every computer.
 2. Easy to configure.
 3. Compatible with production environment.
@@ -76,28 +126,9 @@ The solution:
 5. Independent--- can run multiple independently.
 6. Historical--- works forever.
 
-## Production
-- DOn't need to worry about depenecnies (don't need to instlall all of the
-*extremely heavy* dependencies- numpy, scipy, pandas, sklearn, etc.
-- Can easily move your applcation around
-- Less fragile
-- Drop: "daemons we don't need, virtualization layers, duplicated functions, large iamges"
-
-## Example
-
-1. We need python 3.2. Damn, distro doesn't provide it.
-2. Need a library that clashes with the system's version. Damn.
-3. We package the whole mess, using virtualenv and some glue.
-4. Oh, and we need redis 2.6 for Lua support. Distro has 2.4. Triple damn.
-5. Oh, and the QA team has standardized on Centos.
-6. Oh, BTW, the new search service is a node.js app, that's cool, right?
-
-
-## Easy to deploy
-
 ---
 
-![Docker logo](assets/large_h-trans.png)
+![Docker logo](assets/docker.png)
 
 ## What is Docker?
 - Allows for the automatic deployment of "containers"
@@ -105,32 +136,9 @@ The solution:
 - "Write once run everywhere"
 - Easy to write and use
 
-# Demos!
-
-## Benefits
-1. Super fast to make code changes.
-2. Snapshot in time- doesn't update without being told.
-3. Easy to push far away.
-4. Can run on bare metal (Docker v. Heroku)
-
-## Drawbacks
-1. Slows down iteration speed.
-2. Logging/exporting results (currently...)
-3. Secrets. Most people migrating to containers rely on configuration management
-   to provision secrets on machines securely; however, continuing down the path
-   of configuration management for secrets in containers is clunky. Another
-   alternative is distributing them with the image, but that poses security
-   risks and makes it difficult to securely recycle images between development,
-   CI, and production. The most pure solution is to access secrets over the
-   network, keeping the filesystem of containers stateless. Until recently
-   nothing container-oriented existed in this space, but recently two compelling
-   secret brokers, Vault and Keywhiz, were open-sourced. At Shopify we developed
-   ejson a year and a half ago to solve this problem to manage asymmetrically
-   encrypted secrets files in JSON; however, it makes some assumptions about the
-   environment it runs in that make it less ideal as a general solution compared
-   to secret brokers (read this post if you’re curious).
-4. Image build times can take a long time (future parallelization of buidls).
-
+## One: Moving a nonlinear regression from Excel to Python.
+## Two: Sharing exploratory models
+## Three: Running statistical model on client's system
 
 ## Docker CLI basics
 
@@ -144,7 +152,7 @@ The solution:
 `docker commit -m "installed redis server"`
 `docker images`
 
-## expose to SQL Server
+## Expose to SQL Server
 - show bitbucket repo
 - discuss problems we had
 - show how Docker fixes it (should work on non-OS X systems)
