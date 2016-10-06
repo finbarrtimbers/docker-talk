@@ -241,3 +241,7 @@ kubectl get service tf-shinyapp
 ```
 
 ## Summary
+
+1. Docker makes it easier to distribute complex software.
+2. Docker allows you to determine exactly what environment your code will run in.
+3. Docker is fast and easy to use.
